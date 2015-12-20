@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static stats_tags %}
+
+{% block title %}Player: {{ object.username }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="list-group">
+        {% for player in players %}
+        <a style="padding:.25rem 1rem;" class="list-group-item{% if player.id in player_ids %} active{% endif %}" href="?ids={{ request.GET.dict|add_remove_id:player.id }}">{{ player.username }}</a>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-8">
+
+      <h2>{{ object.username }} {% for friend in friends %}- {{ friend.username }}{% endfor %}</h2>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Games</th>
+            <th>Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ num_games }}</td>
+            <td>{{ num_wins }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% if object == request.user %}
+<!-- Action buttons -->
+<div class="row">
+
+  <div class="col-sm-12 ">
+    <a class="btn btn-primary" href="{% url 'users:update' %}">My Info</a>
+    <a class="btn btn-primary" href="{% url 'account_email' %}">E-Mail</a>
+    <!-- Your Stuff: Custom user template urls -->
+  </div>
+
+</div>
+<!-- End Action buttons -->
+{% endif %}
+
+
+</div>
+{% endblock content %}
+

@@ -44,6 +44,7 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'cs-stats.users',  # custom users app
+    'cs-stats.stats',  # custom users app
     # Your stuff: custom apps go here
 )
 
@@ -98,8 +99,10 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DATABASE_URL", default="postgres:///cs-stats"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'csgostats.db',
+    }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 

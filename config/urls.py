@@ -17,6 +17,7 @@ urlpatterns = [
 
     # User management
     url(r'^users/', include("cs-stats.users.urls", namespace="users")),
+    url(r'^stats/', include("cs-stats.stats.urls", namespace="stats")),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
