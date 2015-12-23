@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static stats_tags %}
+
+{% block title %}Game: {{ object.datetime|date }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>{{ object.datetime|date }} - {{ object.game_map }}</h2>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Kills</th>
+            <th>Assists</th>
+            <th>Deaths</th>
+            <th>MVP</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for player in object.gameplayers.all %}
+          <tr class="table-{% if player.player.username == "Andri" %}success{% elif player.player.username == "Unknown" %}active{% else %}info{% endif %}">
+            <td>{{ player.player.username }}</td>
+            <td>{{ player.kills }}</td>
+            <td>{{ player.assists }}</td>
+            <td>{{ player.deaths }}</td>
+            <td>{{ player.mvps }}</td>
+            <td>{{ player.points }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}
+

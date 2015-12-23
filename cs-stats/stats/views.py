@@ -34,3 +34,26 @@ class PlayerDetail(DetailView):
             'players': models.Player.objects.exclude(id=player.id),
         })
         return context
+
+
+class MapList(ListView):
+    model = models.Map
+
+
+class MapDetail(DetailView):
+    model = models.Map
+
+    def get_context_data(self, **kwargs):
+        context = super(MapDetail, self).get_context_data(**kwargs)
+        context.update({
+            'maps': models.Map.objects.all(),
+        })
+        return context
+
+
+class GameList(ListView):
+    model = models.Game
+
+
+class GameDetail(DetailView):
+    model = models.Game

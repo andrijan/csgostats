@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Games{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>Game</th>
+            <th>Map</th>
+            <th>+</th>
+            <th>-</th>
+            <th>Site ended</th>
+            <th>Players</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for game in object_list %}
+          <tr class="table-{% if game.is_win %}success{% elif game.is_draw %}warning{% else %}danger{% endif %}">
+            <td><a href="{{ game.get_absolute_url }}">{{ game.datetime|date }}</a></td>
+            <td><a href="{{ game.game_map.get_absolute_url }}">{{ game.game_map.map_name }}</a></td>
+            <td>{{ game.rounds_for }}</td>
+            <td>{{ game.rounds_against }}</td>
+            <td>{{ game.site_ended }}</td>
+            <td>{{ game.friends|join:", " }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+

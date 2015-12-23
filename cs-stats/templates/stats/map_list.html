@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Maps{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>Map</th>
+            <th>Games</th>
+            <th>Games Won</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for map in object_list %}
+          <tr>
+            <td><a href="{{ map.get_absolute_url }}">{{ map.map_name }}</a></td>
+            <td>{{ map.num_games }}</td>
+            <td>{{ map.win_percentage }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+

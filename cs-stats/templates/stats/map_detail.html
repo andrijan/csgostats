@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static stats_tags %}
+
+{% block title %}Map: {{ object.map_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="list-group">
+        {% for map in maps %}
+        <a style="padding:.25rem 1rem;" class="list-group-item{% ifequal map.id object.id %} active{% endifequal %}" href="{{ map.get_absolute_url }}">{{ map.map_name }}</a>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-8">
+
+      <h2>{{ object.map_Name }} {% for friend in friends %}- {{ friend.map_Name }}{% endfor %}</h2>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Games</th>
+            <th>Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ object.num_games }}</td>
+            <td>{{ object.num_wins }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}
+

@@ -75,8 +75,26 @@ class Player(models.Model):
         rounded = "{0:.0f}".format(percentage)
         return str(rounded) + '%'
 
+    def total_kills(self, friends=[]):
+        objects = self._games(friends)
+        return objects.annotate(
+            total_kills=models.F('gameplayers__kills')
+        ).aggregate(models.Sum('total_kills'))['total_kills__sum']
+
+    def total_deaths(self, friends=[]):
+        objects = self._games(friends)
+        return objects.annotate(
+            total_deaths=models.F('gameplayers__deaths')
+        ).aggregate(models.Sum('total_deaths'))['total_deaths__sum']
+
+    def kill_death_ratio(self, friends=[]):
+        try:
+            return float((self.total_kills(friends) * 1.0) / self.total_deaths(friends))
+        except:
+            return 0
+
     def get_absolute_url(self):
-        return reverse('stats:detail', args=[str(self.id)])
+        return reverse('stats:player-detail', args=[str(self.id)])
 
 
 class Map(models.Model):
@@ -101,6 +119,9 @@ class Map(models.Model):
         rounded = "{0:.0f}".format(percentage)
         return str(rounded) + '%'
 
+    def get_absolute_url(self):
+        return reverse('stats:map-detail', args=[str(self.id)])
+
 
 class Game(models.Model):
     datetime = models.DateTimeField()
@@ -119,16 +140,35 @@ class Game(models.Model):
     def __unicode__(self):
         return "{0}".format(self.datetime)
 
+    class Meta:
+        ordering = ('-datetime', )
+
+    def get_absolute_url(self):
+        return reverse('stats:game-detail', args=[str(self.id)])
+
     @property
     def is_win(self):
         return self.rounds_for > self.rounds_against
 
+    @property
+    def is_draw(self):
+        return self.rounds_for == self.rounds_against
+
+    @property
+    def friends(self):
+        return self.players.exclude(
+            username__in=["Andri", "Unknown"]
+        ).order_by('username')
+
 
 class GamePlayer(models.Model):
     player = models.ForeignKey(Player, related_name='games')
-    game = models.ForeignKey(Game)
+    game = models.ForeignKey(Game, related_name='gameplayers')
     kills = models.IntegerField()
     assists = models.IntegerField()
     deaths = models.IntegerField()
     mvps = models.IntegerField()
     points = models.IntegerField()
+
+    class Meta:
+        ordering = ('-points', '-kills')

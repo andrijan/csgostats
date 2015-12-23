@@ -16,38 +16,24 @@
             <th>Games Won</th>
             <th>Rounds</th>
             <th>Rounds Won</th>
+            <th>K/D ratio</th>
           </tr>
         </thead>
         <tbody>
           {% for player in object_list %}
           <tr>
-            <td><a href="{{ player.get_absolute_url }}">{{ player.username }}</td>
+            <td><a href="{{ player.get_absolute_url }}">{{ player.username }}</a></td>
             <td>{{ player.num_games }}</td>
             <td>{{ player.win_percentage }}</td>
             <td>{{ player.num_rounds }}</td>
             <td>{{ player.round_win_percentage }}</td>
+            <td>{{ player.kill_death_ratio|floatformat:2 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12 ">
-    <a class="btn btn-primary" href="{% url 'users:update' %}">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
 </div>
 {% endblock content %}
 

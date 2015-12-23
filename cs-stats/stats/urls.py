@@ -4,13 +4,33 @@ from . import views
 
 urlpatterns = [
     url(
-        regex=r'^$',
+        regex=r'^players/$',
         view=views.PlayerList.as_view(),
-        name='list'
+        name='player-list'
     ),
     url(
-        regex=r'^(?P<pk>\d+)/$',
+        regex=r'^players/(?P<pk>\d+)/$',
         view=views.PlayerDetail.as_view(),
-        name='detail'
+        name='player-detail'
+    ),
+    url(
+        regex=r'^maps/$',
+        view=views.MapList.as_view(),
+        name='map-list'
+    ),
+    url(
+        regex=r'^maps/(?P<pk>\d+)/$',
+        view=views.MapDetail.as_view(),
+        name='map-detail'
+    ),
+    url(
+        regex=r'^games/$',
+        view=views.GameList.as_view(),
+        name='game-list'
+    ),
+    url(
+        regex=r'^games/(?P<pk>\d+)/$',
+        view=views.GameDetail.as_view(),
+        name='game-detail'
     ),
 ]
