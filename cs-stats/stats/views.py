@@ -4,6 +4,17 @@ from django.views.generic import DetailView, ListView
 from . import models
 
 
+def player_stats(player, friends=[]):
+    return {
+        'num_games': player.num_games(friends),
+        'num_wins': player.num_wins(friends),
+        'kd_ratio': player.kill_death_ratio(friends),
+        'kills_per_round': player.kills_per_round(friends),
+        'deaths_per_round': player.deaths_per_round(friends),
+        'assists_per_round': player.assists_per_round(friends),
+    }
+
+
 class PlayerList(ListView):
     model = models.Player
 
@@ -24,12 +35,9 @@ class PlayerDetail(DetailView):
         for player_id in player_ids:
             friend = models.Player.objects.get(id=player_id)
             friends.append(friend)
-        num_games = player.num_games(friends)
-        num_wins = player.num_wins(friends)
+        context.update(player_stats(player, friends))
         context.update({
             'friends': friends,
-            'num_games': num_games,
-            'num_wins': num_wins,
             'player_ids': map(int, player_ids),
             'players': models.Player.objects.exclude(id=player.id),
         })

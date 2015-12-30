@@ -18,16 +18,30 @@
 
       <h2>{{ object.username }} {% for friend in friends %}- {{ friend.username }}{% endfor %}</h2>
       <table class="table table-sm">
-        <thead>
-          <tr>
-            <th>Games</th>
-            <th>Wins</th>
-          </tr>
-        </thead>
         <tbody>
           <tr>
+            <td>Games</td>
             <td>{{ num_games }}</td>
+          </tr>
+          <tr>
+            <td>Wins</td>
             <td>{{ num_wins }}</td>
+          </tr>
+          <tr>
+            <td>K/D ratio</td>
+            <td>{{ kd_ratio|floatformat:2 }}</td>
+          </tr>
+          <tr>
+            <td>Kills per round</td>
+            <td>{{ kills_per_round|floatformat:2 }}</td>
+          </tr>
+          <tr>
+            <td>Deaths per round</td>
+            <td>{{ deaths_per_round|floatformat:2 }}</td>
+          </tr>
+          <tr>
+            <td>Assists per round</td>
+            <td>{{ assists_per_round|floatformat:2 }}</td>
           </tr>
         </tbody>
       </table>

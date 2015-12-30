@@ -17,6 +17,9 @@
             <th>Rounds</th>
             <th>Rounds Won</th>
             <th>K/D ratio</th>
+            <th>Kills per round</th>
+            <th>Deaths per round</th>
+            <th>Assists per round</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +31,9 @@
             <td>{{ player.num_rounds }}</td>
             <td>{{ player.round_win_percentage }}</td>
             <td>{{ player.kill_death_ratio|floatformat:2 }}</td>
+            <td>{{ player.kills_per_round|floatformat:2 }}</td>
+            <td>{{ player.deaths_per_round|floatformat:2 }}</td>
+            <td>{{ player.assists_per_round|floatformat:2 }}</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -87,10 +87,34 @@ class Player(models.Model):
             total_deaths=models.F('gameplayers__deaths')
         ).aggregate(models.Sum('total_deaths'))['total_deaths__sum']
 
+    def total_assists(self, friends=[]):
+        objects = self._games(friends)
+        return objects.annotate(
+            total_assists=models.F('gameplayers__assists')
+        ).aggregate(models.Sum('total_assists'))['total_assists__sum']
+
     def kill_death_ratio(self, friends=[]):
         try:
-            return float((self.total_kills(friends) * 1.0) / self.total_deaths(friends))
-        except:
+            return float(self.total_kills(friends)) / self.total_deaths(friends)
+        except ZeroDivisionError:
+            return 0
+
+    def kills_per_round(self, friends=[]):
+        try:
+            return float(self.total_kills(friends)) / self.num_rounds(friends)
+        except ZeroDivisionError:
+            return 0
+
+    def deaths_per_round(self, friends=[]):
+        try:
+            return float(self.total_deaths(friends)) / self.num_rounds(friends)
+        except ZeroDivisionError:
+            return 0
+
+    def assists_per_round(self, friends=[]):
+        try:
+            return float(self.total_assists(friends)) / self.num_rounds(friends)
+        except ZeroDivisionError:
             return 0
 
     def get_absolute_url(self):
