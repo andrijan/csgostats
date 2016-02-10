@@ -69,12 +69,15 @@ class Player(models.Model):
         objects = self._games(friends)
         return objects.annotate(
             total_rounds=models.F('rounds_for')
-        ).aggregate(models.Sum('total_rounds'))['total_rounds__sum']
+        ).aggregate(models.Sum('total_rounds'))['total_rounds__sum'] or 0
 
     def round_win_percentage(self, friends=[]):
-        percentage = (
-            float(self.num_round_wins(friends)) / self.num_rounds(friends)
-        ) * 100
+        try:
+            percentage = (
+                float(self.num_round_wins(friends)) / self.num_rounds(friends)
+            ) * 100
+        except ZeroDivisionError:
+            percentage = 0
         rounded = "{0:.0f}".format(percentage)
         return str(rounded) + '%'
 
