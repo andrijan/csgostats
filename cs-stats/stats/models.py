@@ -50,9 +50,12 @@ class Player(models.Model):
         ).count()
 
     def win_percentage(self, friends=[]):
-        percentage = (
-            float(self.num_wins(friends)) / self.num_games(friends)
-        ) * 100
+        try:
+            percentage = (
+                float(self.num_wins(friends)) / self.num_games(friends)
+            ) * 100
+        except ZeroDivisionError:
+            percentage = 0
         rounded = "{0:.0f}".format(percentage)
         return str(rounded) + '%'
 
