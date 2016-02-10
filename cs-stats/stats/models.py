@@ -85,19 +85,19 @@ class Player(models.Model):
         objects = self._games(friends)
         return objects.annotate(
             total_kills=models.F('gameplayers__kills')
-        ).aggregate(models.Sum('total_kills'))['total_kills__sum']
+        ).aggregate(models.Sum('total_kills'))['total_kills__sum'] or 0
 
     def total_deaths(self, friends=[]):
         objects = self._games(friends)
         return objects.annotate(
             total_deaths=models.F('gameplayers__deaths')
-        ).aggregate(models.Sum('total_deaths'))['total_deaths__sum']
+        ).aggregate(models.Sum('total_deaths'))['total_deaths__sum'] or 0
 
     def total_assists(self, friends=[]):
         objects = self._games(friends)
         return objects.annotate(
             total_assists=models.F('gameplayers__assists')
-        ).aggregate(models.Sum('total_assists'))['total_assists__sum']
+        ).aggregate(models.Sum('total_assists'))['total_assists__sum'] or 0
 
     def kill_death_ratio(self, friends=[]):
         try:
